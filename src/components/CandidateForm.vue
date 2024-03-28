@@ -57,7 +57,8 @@
 
 <script setup>
 import { useCandidateStore } from '@/stores/CandidateStore';
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
+const emit = defineEmits(['closeModal'])
 const firstName = ref('')
 const lastName = ref('')
 const phoneNumber = ref('')
@@ -73,7 +74,12 @@ const handleSubmit = () => {
     email: email.value,
     status: 2,
   }
-  candidateStore.addCandidate(newCandidate)
-
+  candidateStore.addCandidate(newCandidate);
+  firstName.value = '';
+  lastName.value = '';
+  phoneNumber.value = '';
+  email.value = '';
+  status.value = '';
+  emit('closeModal')
 }
 </script>

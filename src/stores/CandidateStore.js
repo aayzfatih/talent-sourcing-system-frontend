@@ -36,12 +36,13 @@ export const useCandidateStore = defineStore("candidates ", {
       this.candidates = this.candidates.filter(
         (candidate) => candidate.id !== id
       );
-      await axios
-        .delete("http://localhost:8080/api/candidates/" + id)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => console.log(err));
+      const response = await fetch(
+        "http://localhost:8080/api/candidates/" + id,
+        { method: "DELETE" }
+      );
+      if (response.error) {
+        console.log(response.error);
+      }
     },
   },
 });
