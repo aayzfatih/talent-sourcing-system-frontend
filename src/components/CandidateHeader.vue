@@ -1,33 +1,29 @@
 <template>
   <div class="sm:flex items-center justify-between m-5">
     <div class="flex items-center">
-      <button @click="getSourcedItems"
-        class="rounded-full focus:outline-none focus:ring-2  focus:bg-indigo-50 focus:ring-indigo-800">
-        <div class="py-2 px-8 bg-indigo-100 text-indigo-700 rounded-full">
-          <p>Sourced</p>
-        </div>
+      <button @click="getSourcedCandidateItems"
+        class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+        Sourced
       </button>
       <button @click="getAllCandidateItems"
-        class="rounded-full focus:outline-none focus:ring-2 focus:bg-indigo-50 focus:ring-indigo-800 ml-4 sm:ml-8">
-        <div class="py-2 px-8 text-gray-600 hover:text-indigo-700 hover:bg-indigo-100 rounded-full ">
-          <p>All</p>
-        </div>
+        class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+        All
       </button>
     </div>
-    <button class=" focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start
-        justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded">
+    <button
+      class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
       <p class="text-sm font-medium leading-none text-white" @click="openFormModal">Add Candidates</p>
     </button>
   </div>
 </template>
 <script setup>
 import { defineEmits } from 'vue';
-const emit = defineEmits(['openModal', 'getSourcedItems', 'getAllCandidateItems'])
+const emit = defineEmits(['openModal', 'getSourcedCandidateItems', 'getAllCandidateItems'])
 const openFormModal = () => {
   emit('openModal')
 }
-const getSourcedItems = () => {
-  emit('getSourcedItems')
+const getSourcedCandidateItems = () => {
+  emit('getSourcedCandidateItems')
 }
 const getAllCandidateItems = () => {
   emit('getAllCandidateItems')
