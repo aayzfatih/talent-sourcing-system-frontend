@@ -7,7 +7,9 @@ export const useCandidateStore = defineStore("candidates ", {
   }),
   getters: {
     getSourcedCandidates: (state) => {
-      return state.candidates.filter((candidate) => candidate.status === 2);
+      return state.candidates.filter(
+        (candidate) => candidate.status === "Sourced"
+      );
     },
   },
 

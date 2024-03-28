@@ -9,10 +9,7 @@
   <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
     {{ candidate.email }}</td>
   <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-    <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-      <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-      <span class="relative text-xs">{{ candidate.status }}</span>
-    </span>
+    <CandidateStatus :candidateStatus="candidate.status" />
   </td>
   <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5 cursor-pointer">
     <i @click="openDetailModal" class="material-icons">visibility</i>
@@ -24,6 +21,7 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue';
 import { useCandidateStore } from '@/stores/CandidateStore';
+import CandidateStatus from './CandidateStatus.vue';
 const candidateStore = useCandidateStore()
 const emit = defineEmits(['openDetailModal'])
 const props = defineProps({
