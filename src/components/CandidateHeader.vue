@@ -18,9 +18,9 @@
 </template>
 <script setup>
 import { defineEmits } from 'vue';
-const emit = defineEmits(['openModal', 'getSourcedCandidateItems', 'getAllCandidateItems'])
+const emit = defineEmits(['openFormModal', 'getSourcedCandidateItems', 'getAllCandidateItems'])
 const openFormModal = () => {
-  emit('openModal')
+  emit('openFormModal')
 }
 const getSourcedCandidateItems = () => {
   emit('getSourcedCandidateItems')

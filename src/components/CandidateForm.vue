@@ -50,7 +50,7 @@
 <script setup>
 import { useCandidateStore } from '@/stores/CandidateStore';
 import { ref, defineEmits } from 'vue'
-const emit = defineEmits(['closeModal'])
+const emit = defineEmits(['closeFormModal'])
 const formData = ref({
   name: '',
   surname: '',
@@ -62,7 +62,6 @@ const candidateStore = useCandidateStore()
 candidateStore.getStatus()
 const handleSubmit = () => {
   candidateStore.addCandidate(formData.value);
-  console.log(formData);
-  emit('closeModal')
+  emit('closeFormModal')
 }
 </script>

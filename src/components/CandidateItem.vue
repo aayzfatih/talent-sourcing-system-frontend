@@ -14,7 +14,7 @@
   <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5 cursor-pointer">
     <i @click="openDetailModal" class="material-icons">visibility</i>
     <i @click="candidateStore.deleteCandidate(candidate.id)" class="material-icons ">delete</i>
-    <i class="material-icons">edit</i>
+    <i @click="openEditModal" class="material-icons">edit</i>
   </td>
 </template>
 
@@ -23,7 +23,7 @@ import { defineProps, defineEmits } from 'vue';
 import { useCandidateStore } from '@/stores/CandidateStore';
 import CandidateStatus from './CandidateStatus.vue';
 const candidateStore = useCandidateStore()
-const emit = defineEmits(['openDetailModal'])
+const emit = defineEmits(['openDetailModal', 'openEditModal'])
 const props = defineProps({
   candidate: {
     type: Object,
@@ -32,5 +32,8 @@ const props = defineProps({
 })
 const openDetailModal = () => {
   emit('openDetailModal')
+}
+const openEditModal = () => {
+  emit('openEditModal')
 }
 </script>
