@@ -41,6 +41,8 @@
         </tbody>
       </table>
     </div>
+    <button @click="prevPage">Önceki</button>
+    <button @click="nextPage" :disabled="currentPage == totalPages - 1"> Sonraki </button>
 
     <div v-if="isEditModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
       <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
@@ -73,8 +75,15 @@ const isFormModalOpen = ref(false)
 const isDetailModalOpen = ref(false)
 const isEditModalOpen = ref(false)
 const filter = ref('all')
-candidateStore.getAllCandidates()
-candidateStore.getStatus()
+
+const totalPages = candidateStore.totalPages;
+const currentPage = candidateStore.currentPage;
+candidateStore.List(currentPage, 2)
+
+const nextPage = () => candidateStore.nextPage();
+const prevPage = () => candidateStore.prevPage();
+
+candidateStore.getStatus();
 const changeFormModal = () => {
   isFormModalOpen.value = !isFormModalOpen.value
 }

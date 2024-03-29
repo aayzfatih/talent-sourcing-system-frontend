@@ -1,9 +1,11 @@
 import { defineStore } from "pinia";
-
+import { UnsecureAxios } from "@/utils/axios";
+const path = "/candidates";
 export const useCandidateStore = defineStore("candidates ", {
   state: () => ({
     candidates: [],
-    isLoading: false,
+    totalPages: 0,
+    currentPage: 0,
     status: [],
   }),
   getters: {
@@ -13,14 +15,24 @@ export const useCandidateStore = defineStore("candidates ", {
       );
     },
   },
-
   actions: {
-    async getAllCandidates() {
-      this.isLoading = true;
-      const response = await fetch("http://localhost:8080/api/candidates");
-      const data = await response.json();
-      this.candidates = data;
-      this.isLoading = false;
+    async List(page, size) {
+      const response = await UnsecureAxios.get(
+        `${path}?page=${page}&size=${size}`
+      );
+      this.candidates = response.data.data.content;
+      this.$patch({ totalPages: response.data.data.totalPages });
+      this.$patch({ currentPage: response.data.data.pageNo });
+    },
+    nextPage() {
+      if (this.$state.currentPage < this.$state.totalPages - 1) {
+        this.List(this.currentPage + 1, 2);
+      }
+    },
+    prevPage() {
+      if (this.$state.currentPage > 0) {
+        this.List(this.currentPage - 1, 2);
+      }
     },
     async addCandidate(candidate) {
       this.candidates.push(candidate);
@@ -49,7 +61,7 @@ export const useCandidateStore = defineStore("candidates ", {
     },
     async getStatus() {
       const response = await fetch(
-        "http://localhost:8080/api/candidates/status"
+        "http://localhost:3000/api/v1/candidates/status"
       );
       if (response.error) {
         console.log(response.error);
