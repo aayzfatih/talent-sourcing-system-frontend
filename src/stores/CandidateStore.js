@@ -33,28 +33,19 @@ export const useCandidateStore = defineStore("candidates ", {
     },
     async addCandidate(candidate) {
       this.candidates.push(candidate);
-      const response = await fetch("http://localhost:8080/api/candidates/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(candidate),
-      });
-      if (response.error) {
-        console.log(response.error);
-      }
+      const response = await UnsecureAxios.post(`${path}/add`, candidate)
+        .then((response) => {
+          console.log("başarılı");
+        })
+        .catch((err) => console.log(err));
     },
     async deleteCandidate(id) {
       this.candidates = this.candidates.filter(
         (candidate) => candidate.id !== id
       );
-      const response = await fetch(
-        "http://localhost:8080/api/candidates/" + id,
-        { method: "DELETE" }
-      );
-      if (response.error) {
-        console.log(response.error);
-      }
+      const response = await UnsecureAxios.delete(`${path}/${id}`)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
     },
     async getStatus() {
       const response = await fetch(
