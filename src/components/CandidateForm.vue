@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="handleSubmit">
     <div class="relative z-0 w-full mb-5 group">
-      <input v-model="firstName" type="text" name="floating_first_name" id="floating_first_name"
+      <input v-model="formData.name" type="text" name="floating_first_name" id="floating_first_name"
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
         placeholder=" " required />
       <label for="floating_first_name"
@@ -9,7 +9,7 @@
         Name</label>
     </div>
     <div class="relative z-0 w-full mb-5 group">
-      <input v-model="lastName" type="text" name="floating_last_name" id="floating_last_name"
+      <input v-model="formData.surname" type="text" name="floating_last_name" id="floating_last_name"
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
         placeholder=" " required />
       <label for="floating_last_name"
@@ -18,7 +18,7 @@
     </div>
 
     <div class="relative z-0 w-full mb-5 group">
-      <input v-model="email" type="email" name="floating_email" id="floating_email"
+      <input v-model="formData.email" type="email" name="floating_email" id="floating_email"
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
         placeholder=" " required />
       <label for="floating_email"
@@ -26,7 +26,7 @@
         address</label>
     </div>
     <div class="relative z-0 w-full mb-5 group">
-      <input v-model="phoneNumber" type="tel" name="floating_phone" id="floating_phone"
+      <input v-model="formData.phoneNumber" type="tel" name="floating_phone" id="floating_phone"
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
         placeholder="" required />
       <label for="floating_phone"
@@ -34,7 +34,7 @@
         number (5451233434)</label>
     </div>
     <div class="relative z-0 w-full mb-5 group">
-      <select v-model="status" id="status"
+      <select v-model="formData.status" id="status"
         class="text-gray-00 px-0 border-b-2 border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         <option selected disabled>Choose a status</option>
         <option v-for="candidate in candidateStore.status" :value="candidate">{{ candidate }}</option>
@@ -51,27 +51,18 @@
 import { useCandidateStore } from '@/stores/CandidateStore';
 import { ref, defineEmits } from 'vue'
 const emit = defineEmits(['closeModal'])
-const firstName = ref('')
-const lastName = ref('')
-const phoneNumber = ref('')
-const email = ref('')
-const status = ref('')
+const formData = ref({
+  name: '',
+  surname: '',
+  phoneNumber: '',
+  email: '',
+  status: '',
+})
 const candidateStore = useCandidateStore()
 candidateStore.getStatus()
 const handleSubmit = () => {
-  const newCandidate = {
-    name: firstName.value,
-    surname: lastName.value,
-    phoneNumber: phoneNumber.value,
-    email: email.value,
-    status: status.value,
-  }
-  candidateStore.addCandidate(newCandidate);
-  firstName.value = '';
-  lastName.value = '';
-  phoneNumber.value = '';
-  email.value = '';
-  status.value = '';
+  candidateStore.addCandidate(formData.value);
+  console.log(formData);
   emit('closeModal')
 }
 </script>
