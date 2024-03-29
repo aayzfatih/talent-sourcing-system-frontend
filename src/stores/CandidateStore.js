@@ -8,18 +8,15 @@ export const useCandidateStore = defineStore("candidates ", {
     currentPage: 0,
     status: [],
   }),
-  getters: {
-    getSourcedCandidates: (state) => {
-      return state.candidates.filter(
-        (candidate) => candidate.status === "Sourced"
-      );
-    },
-  },
+  getters: {},
   actions: {
-    async List(page, size) {
+    async List(page, size, status) {
       const response = await UnsecureAxios.get(
-        `${path}?page=${page}&size=${size}`
+        `${path}/list?page=${page}&size=${size}${
+          status ? `&status=${status}` : ""
+        }`
       );
+
       this.candidates = response.data.data.content;
       this.$patch({ totalPages: response.data.data.totalPages });
       this.$patch({ currentPage: response.data.data.pageNo });
