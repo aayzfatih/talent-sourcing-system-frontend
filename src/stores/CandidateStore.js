@@ -4,6 +4,7 @@ export const useCandidateStore = defineStore("candidates ", {
   state: () => ({
     candidates: [],
     isLoading: false,
+    status: [],
   }),
   getters: {
     getSourcedCandidates: (state) => {
@@ -45,6 +46,16 @@ export const useCandidateStore = defineStore("candidates ", {
       if (response.error) {
         console.log(response.error);
       }
+    },
+    async getStatus() {
+      const response = await fetch(
+        "http://localhost:8080/api/candidates/status"
+      );
+      if (response.error) {
+        console.log(response.error);
+      }
+      const data = await response.json();
+      this.status = data;
     },
   },
 });

@@ -37,10 +37,7 @@
       <select v-model="status" id="status"
         class="text-gray-00 px-0 border-b-2 border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         <option selected disabled>Choose a status</option>
-        <option value="Sourced">Sourced</option>
-        <option value="Interviewing">İnterviewing</option>
-        <option value="Offer Sent">Offer sent</option>
-        <option value="Hired">Hired</option>
+        <option v-for="candidate in candidateStore.status" :value="candidate">{{ candidate }}</option>
       </select>
     </div>
     <button type="submit"
@@ -60,7 +57,7 @@ const phoneNumber = ref('')
 const email = ref('')
 const status = ref('')
 const candidateStore = useCandidateStore()
-
+candidateStore.getStatus()
 const handleSubmit = () => {
   const newCandidate = {
     name: firstName.value,

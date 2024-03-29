@@ -64,6 +64,7 @@ const changeDetailModal = () => {
   isDetailModalOpen.value = !isDetailModalOpen.value
 }
 candidateStore.getAllCandidates()
+candidateStore.getStatus()
 const handleGetAllCandidates = () => {
   filter.value = 'all'
 }
