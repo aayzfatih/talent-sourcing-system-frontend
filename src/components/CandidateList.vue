@@ -33,20 +33,16 @@
         </tr>
       </thead>
       <tbody class="bg-white ">
-        <tr v-if="filter === 'all'" v-for="candidate in candidateStore.candidates">
-          <CandidateItem @openEditModal="changeEditModal" @openDetailModal="changeDetailModal" :candidate="candidate" />
-          <div v-if="isEditModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
-              <CandidateEdit :candidata="candidate" @closeEditModal="changeEditModal" />
-            </div>
-          </div>
-        </tr>
-        <tr v-else-if="filter === 'sourced'" v-for="candidate in candidateStore.getSourcedCandidates">
+        <tr v-for="candidate in candidateStore.candidates">
           <CandidateItem @openEditModal="changeEditModal" @openDetailModal="changeDetailModal" :candidate="candidate" />
         </tr>
       </tbody>
     </table>
-
+    <div v-if="isEditModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+        <CandidateEdit :candidata="candidate" @closeEditModal="changeEditModal" />
+      </div>
+    </div>
     <div class="sm:flex-1 sm:flex sm:items-center sm:justify-between mt-4 work-sans">
       <div>
         <p class="text-sm leading-5 text-blue-700">
@@ -117,46 +113,53 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useCandidateStore } from '@/stores/CandidateStore';
-
 import CandidateDetail from './CandidateDetail.vue'
 import CandidateItem from './CandidateItem.vue'
 import CandidateEdit from './CandidateEdit.vue'
 import Selectbox from "./select-box.vue";
-const candidateStore = useCandidateStore()
 
+const candidateStore = useCandidateStore()
 const isDetailModalOpen = ref(false)
 const isEditModalOpen = ref(false)
+const showFilters = ref(false);
 const form = ref({
   status: '',
 })
-const filter = ref('all')
-const showFilters = ref(false);
+
+//Get states from stores
 const totalPages = candidateStore.totalPages;
 const currentPage = candidateStore.currentPage;
+candidateStore.getStatus();
+
+//List of candidates
 candidateStore.List(currentPage, 3, "")
+
+//clear filter
 const clearFilter = () => {
   showFilters.value = false;
   form.value.status = '';
   candidateStore.List(currentPage, 3, "")
 };
-
 const status = [
   { id: 'Hired', name: 'Hired' },
   { id: 'Sourced', name: 'Sourced' },
   { id: 'Interviewing', name: 'Interviewing' },
   { id: 'Offer_Sent', name: 'Offer_Sent' },
 ]
+
+//Pagination
 const nextPage = () => candidateStore.nextPage();
 const prevPage = () => candidateStore.prevPage();
 
-candidateStore.getStatus();
-
+//Change modal state
 const changeDetailModal = () => {
   isDetailModalOpen.value = !isDetailModalOpen.value
 }
 const changeEditModal = () => {
   isEditModalOpen.value = !isEditModalOpen.value
 }
+
+
 watch(() => form.value.status, (value) => {
   candidateStore.List(currentPage, 3, value)
 })

@@ -47,14 +47,8 @@ export const useCandidateStore = defineStore("candidates ", {
         .catch((err) => console.log(err));
     },
     async getStatus() {
-      const response = await fetch(
-        "http://localhost:3000/api/v1/candidates/status"
-      );
-      if (response.error) {
-        console.log(response.error);
-      }
-      const data = await response.json();
-      this.status = data;
+      const response = await UnsecureAxios.get(`${path}/status`);
+      this.status = response.data;
     },
   },
 });

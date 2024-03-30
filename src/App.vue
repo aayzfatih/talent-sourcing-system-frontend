@@ -2,7 +2,7 @@
   <div class="mx-auto">
     <CandidateHeader @openFormModal="changeFormModal" />
     <div v-if="isFormModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
-      <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
         <CandidateForm @closeFormModal="changeFormModal" />
       </div>
     </div>
