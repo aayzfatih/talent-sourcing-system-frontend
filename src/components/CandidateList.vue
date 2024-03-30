@@ -43,57 +43,8 @@
         <CandidateEdit :candidata="candidate" @closeEditModal="changeEditModal" />
       </div>
     </div>
-    <div class="sm:flex-1 sm:flex sm:items-center sm:justify-between mt-4 work-sans">
-      <div>
-        <p class="text-sm leading-5 text-blue-700">
-          Showing page
-          <span class="font-medium">{{ candidateStore.currentPage + 1 }}</span>
-          of
-          <span class="font-medium">{{ candidateStore.totalPages }}</span>
-          pages
-        </p>
-      </div>
-      <div>
-        <nav class="relative z-0 inline-flex shadow-sm">
-          <div>
-            <button @click="prevPage"
-              class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
-              aria-label="Previous">
-              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                  clip-rule="evenodd" />
-              </svg>
-            </button>
-          </div>
-          <div>
-            <button
-              class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-blue-700 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-tertiary">
-              1
-            </button>
-            <button
-              class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-blue-600 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-tertiary">
-              2
-            </button>
-            <button
-              class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-blue-600 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-tertiary">
-              3
-            </button>
-          </div>
-          <div>
-            <button @click="nextPage" :disabled="currentPage == totalPages - 1"
-              class="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
-              aria-label="Next">
-              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                  clip-rule="evenodd" />
-              </svg>
-            </button>
-          </div>
-        </nav>
-      </div>
-    </div>
+
+    <PaginationButtons />
 
     <div v-if="isEditModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
       <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
@@ -116,6 +67,7 @@ import { useCandidateStore } from '@/stores/CandidateStore';
 import CandidateDetail from './CandidateDetail.vue'
 import CandidateItem from './CandidateItem.vue'
 import CandidateEdit from './CandidateEdit.vue'
+import PaginationButtons from './PaginationButtons.vue'
 import Selectbox from "./select-box.vue";
 
 const candidateStore = useCandidateStore()
@@ -127,29 +79,15 @@ const form = ref({
 })
 
 //Get states from stores
-const totalPages = candidateStore.totalPages;
 const currentPage = candidateStore.currentPage;
 candidateStore.getStatus();
 
-//List of candidates
-candidateStore.List(currentPage, 3, "")
-
-//clear filter
-const clearFilter = () => {
-  showFilters.value = false;
-  form.value.status = '';
-  candidateStore.List(currentPage, 3, "")
-};
 const status = [
   { id: 'Hired', name: 'Hired' },
   { id: 'Sourced', name: 'Sourced' },
   { id: 'Interviewing', name: 'Interviewing' },
   { id: 'Offer_Sent', name: 'Offer_Sent' },
 ]
-
-//Pagination
-const nextPage = () => candidateStore.nextPage();
-const prevPage = () => candidateStore.prevPage();
 
 //Change modal state
 const changeDetailModal = () => {
@@ -159,6 +97,12 @@ const changeEditModal = () => {
   isEditModalOpen.value = !isEditModalOpen.value
 }
 
+//filter by status
+const clearFilter = () => {
+  showFilters.value = false;
+  form.value.status = '';
+  candidateStore.List(currentPage, 3, "")
+};
 
 watch(() => form.value.status, (value) => {
   candidateStore.List(currentPage, 3, value)
