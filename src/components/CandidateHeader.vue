@@ -1,5 +1,5 @@
 <template>
-  <div class="sm:flex items-center justify-between m-5">
+  <div class="sm:flex items-center justify-between m-5 ">
     <div class="flex items-center">
       <h1>Talent Sourcing System </h1>
     </div>

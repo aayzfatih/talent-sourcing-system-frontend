@@ -23,12 +23,12 @@ export const useCandidateStore = defineStore("candidates ", {
     },
     nextPage() {
       if (this.$state.currentPage < this.$state.totalPages - 1) {
-        this.List(this.currentPage + 1, 2);
+        this.List(this.currentPage + 1, 3);
       }
     },
     prevPage() {
       if (this.$state.currentPage > 0) {
-        this.List(this.currentPage - 1, 2);
+        this.List(this.currentPage - 1, 3);
       }
     },
     async addCandidate(candidate) {
