@@ -16,7 +16,7 @@
     <i @click="openEditModal" class="material-icons">edit</i>
   </td>
   <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
-    <button @click="openDetailModal"
+    <button @click="openDetailModal(candidate.id)"
       class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">View
       Details</button>
   </td>
@@ -25,6 +25,9 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue';
 import { useCandidateStore } from '@/stores/CandidateStore';
+import { useInteractionStore } from '@/stores/IntereactionStore';
+const interactionStore = useInteractionStore()
+
 const candidateStore = useCandidateStore()
 const emit = defineEmits(['openDetailModal', 'openEditModal'])
 const props = defineProps({
@@ -33,7 +36,8 @@ const props = defineProps({
     required: true
   }
 })
-const openDetailModal = () => {
+const openDetailModal = (id) => {
+  interactionStore.interactionList(id)
   emit('openDetailModal')
 }
 const openEditModal = () => {
