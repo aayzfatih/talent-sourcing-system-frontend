@@ -35,7 +35,7 @@ export const useCandidateStore = defineStore("candidates ", {
       this.candidates.push(candidate);
       const response = await UnsecureAxios.post(`${path}/add`, candidate)
         .then((response) => {
-          console.log("başarılı");
+          console.log(response);
         })
         .catch((err) => console.log(err));
     },

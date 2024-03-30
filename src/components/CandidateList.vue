@@ -6,7 +6,7 @@
         Clear Filter
       </label>
       <button class="absolute top-5 right-4" @click="showFilters = !showFilters">
-        <Icon name="filter" class="w-6 h-6 dark:stroke-white stroke-gray-950" />
+        <i class="material-icons">filter_list</i>
       </button>
     </div>
     <div class="">
@@ -47,17 +47,17 @@
       </tr>
     </tbody>
   </table>
-  <nav class="flex flex-row items-center justify-center p-4 rounded bg-white space-x-2">
+  <nav class="flex flex-row items-center justify-center my-4 p-4 rounded bg-white space-x-2">
     <a @click="prevPage"
-      class="p-1 rounded border text-black bg-white hover:text-white hover:bg-blue-600 hover:border-blue-600" href="#">
+      class="p-1 rounded border text-black bg-white hover:text-white hover:bg-blue-600 hover:border-blue-600">
       <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
         <path fill-rule="evenodd"
           d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
       </svg>
     </a>
-    <p class="text-gray-500">Page {{ candidateStore.currentPage + 1 }} of 10</p>
+    <p class="text-gray-500">Page {{ candidateStore.currentPage + 1 }} of {{ candidateStore.totalPages }}</p>
     <a @click="nextPage" :disabled="currentPage == totalPages - 1" class=" p-1 rounded border text-black bg-white
-      hover:text-white hover:bg-blue-600 hover:border-blue-600" href="#">
+      hover:text-white hover:bg-blue-600 hover:border-blue-600">
       <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
         <path fill-rule="evenodd"
           d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
@@ -91,7 +91,6 @@ import CandidateDetail from './CandidateDetail.vue'
 import CandidateHeader from './CandidateHeader.vue'
 import CandidateItem from './CandidateItem.vue'
 import CandidateEdit from './CandidateEdit.vue'
-import Icon from "./icon/icon.vue";
 import Selectbox from "./select-box.vue";
 const candidateStore = useCandidateStore()
 const isFormModalOpen = ref(false)
