@@ -4,6 +4,7 @@ const path = "/candidates";
 export const useCandidateStore = defineStore("candidates ", {
   state: () => ({
     candidates: [],
+    selectedCandidate: {},
     totalPages: 0,
     currentPage: 0,
     status: [],
@@ -19,6 +20,10 @@ export const useCandidateStore = defineStore("candidates ", {
       this.candidates = response.data.data.content;
       this.$patch({ totalPages: response.data.data.totalPages });
       this.$patch({ currentPage: response.data.data.pageNo });
+    },
+    async getCandidateById(id) {
+      const response = await UnsecureAxios.get(`${path}/list/${id}`);
+      this.selectedCandidate = response.data.data;
     },
     nextPage() {
       if (this.$state.currentPage < this.$state.totalPages - 1) {
@@ -45,6 +50,9 @@ export const useCandidateStore = defineStore("candidates ", {
       const response = await UnsecureAxios.delete(`${path}/${id}`)
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
+    },
+    async updateCandidate(id, candidate) {
+      const response = await UnsecureAxios.put(`${path}/${id}`, candidate);
     },
     async getStatus() {
       const response = await UnsecureAxios.get(`${path}/status`);

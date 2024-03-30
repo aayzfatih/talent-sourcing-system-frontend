@@ -13,7 +13,7 @@
   </td>
   <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5 cursor-pointer">
     <i @click="candidateStore.deleteCandidate(candidate.id)" class="material-icons ">delete</i>
-    <i @click="openEditModal" class="material-icons">edit</i>
+    <i @click="openEditModal(candidate.id)" class="material-icons">edit</i>
   </td>
   <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
     <button @click="openDetailModal(candidate.id)"
@@ -40,7 +40,8 @@ const openDetailModal = (id) => {
   interactionStore.interactionList(id)
   emit('openDetailModal')
 }
-const openEditModal = () => {
+const openEditModal = (id) => {
+  candidateStore.getCandidateById(id)
   emit('openEditModal')
 }
 </script>

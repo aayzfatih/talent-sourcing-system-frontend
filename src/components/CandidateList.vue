@@ -45,7 +45,7 @@
     </div>
     <div v-if="isEditModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
       <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
-        <CandidateEdit :candidata="candidate" @closeEditModal="changeEditModal" />
+        <CandidateEdit @closeEditModal="changeEditModal" />
       </div>
     </div>
 
