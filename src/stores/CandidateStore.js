@@ -16,7 +16,6 @@ export const useCandidateStore = defineStore("candidates ", {
           status ? `&status=${status}` : ""
         }`
       );
-      console.log(response.data.data);
       this.candidates = response.data.data.content;
       this.$patch({ totalPages: response.data.data.totalPages });
       this.$patch({ currentPage: response.data.data.pageNo });

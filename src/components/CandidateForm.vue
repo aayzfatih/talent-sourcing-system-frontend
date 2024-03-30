@@ -8,31 +8,32 @@
             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
             <input v-model="formData.name" type="text" name="name" id="name"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              value="Apple iMac 27&ldquo;" placeholder="Type product name" required="">
+              placeholder="Name" required="">
           </div>
           <div class="sm:col-span-2">
-            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-            <input v-model="formData.surname" type="text" name="name" id="name"
+            <label for="surname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+            <input v-model="formData.surname" type="text" name="surname" id="surname"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              value="Apple iMac 27&ldquo;" placeholder="Type product name" required="">
+              placeholder="Surname" required="">
           </div>
           <div class="sm:col-span-2">
             <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
-            <input v-model="formData.phoneNumber" type="text" name="name" id="name"
+            <input v-model="formData.phoneNumber" type="text" name="phone" id="phone" v-mask="'(###) ###-####'"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              value="Apple iMac 27&ldquo;" placeholder="Type product name" required="">
+              placeholder="Phone Number(544) 444-4444" required="">
           </div>
           <div class="sm:col-span-2">
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Email Addres</label>
-            <input v-model="formData.phoneNumber" type="text" name="name" id="name"
+            <input v-model="formData.email" type="email" name="email" id="email"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              value="Apple iMac 27&ldquo;" placeholder="Type product name" required="">
+              placeholder="Email Address" required="">
           </div>
           <div>
             <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-            <select v-model="formData.status" id="category"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+            <select v-model="formData.status" id="status"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              required="">
               <option selected disabled>Choose a status</option>
               <option v-for="candidate in candidateStore.status" :value="candidate">{{ candidate }}</option>
             </select>
