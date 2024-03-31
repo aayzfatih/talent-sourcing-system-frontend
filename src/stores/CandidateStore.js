@@ -6,7 +6,7 @@ export const useCandidateStore = defineStore("candidates ", {
     candidates: [],
     selectedCandidate: {},
     totalPages: 0,
-    currentPage: 0,
+    currentPage: 3,
     status: [],
   }),
   actions: {
@@ -35,12 +35,17 @@ export const useCandidateStore = defineStore("candidates ", {
       }
     },
     async addCandidate(candidate) {
-      this.candidates.push(candidate);
-      const response = await UnsecureAxios.post(`${path}`, candidate)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => console.log(err));
+      try {
+        const response = await UnsecureAxios.post(`${path}`, candidate);
+        if (response.status === 201) {
+          this.List(this.currentPage, 3, "");
+        }
+
+        return response;
+      } catch (err) {
+        console.log(err);
+        return err; // If needed, you can return the error object
+      }
     },
     async deleteCandidate(id) {
       this.candidates = this.candidates.filter(

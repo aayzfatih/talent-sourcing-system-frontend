@@ -66,7 +66,15 @@ const formData = ref({
 const candidateStore = useCandidateStore()
 candidateStore.getStatus()
 const handleSubmit = () => {
-  candidateStore.addCandidate(formData.value);
-  emit('closeFormModal')
+  candidateStore.addCandidate(formData.value).then((result) => {
+    if (result) {
+      emit('closeFormModal')
+    }
+
+  }).catch((err) => {
+    console.log(err)
+  });
+
+
 }
 </script>

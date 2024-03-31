@@ -88,6 +88,7 @@ const clearFilter = () => {
 };
 
 watch(() => form.value.status, (value) => {
+  console.log(value)
   candidateStore.List(currentPage, 3, value)
 })
 </script>
