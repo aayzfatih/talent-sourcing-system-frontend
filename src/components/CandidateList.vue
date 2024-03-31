@@ -88,6 +88,6 @@ const clearFilter = () => {
 };
 
 watch(() => form.value.status, (value) => {
-  candidateStore.List({ page: currentPage, status: value })
+  candidateStore.List({ page: 0, status: value })
 })
 </script>

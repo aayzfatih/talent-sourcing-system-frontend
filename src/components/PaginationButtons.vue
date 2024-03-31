@@ -23,12 +23,8 @@
           </button>
         </div>
         <div v-for="pageNumber in candidateStore.totalPages">
-          <button v-if="pageNumber === candidateStore.currentPage + 1"
+          <button @click="changePage(pageNumber)"
             class="-ml-px  inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-300 text-sm leading-5 font-medium text-blue-900 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-blue-700 hover:text-white">
-            {{ pageNumber }}
-          </button>
-          <button v-else
-            class="-ml-px  inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-blue-700 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-gray-100">
             {{ pageNumber }}
           </button>
         </div>
@@ -60,8 +56,8 @@ const props = defineProps({
   },
 })
 candidateStore.List({ page: 0, status: '' })
-
 const nextPage = () => candidateStore.nextPage(props.status);
+const changePage = (pageNumber) => { candidateStore.changePage(pageNumber, props.status) }
 const prevPage = () => candidateStore.prevPage(props.status);
 
 

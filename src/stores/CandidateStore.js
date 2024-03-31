@@ -7,7 +7,6 @@ export const useCandidateStore = defineStore("candidates ", {
     selectedCandidate: {},
     totalPages: 0,
     currentPage: 3,
-    status: [],
   }),
   actions: {
     async List({ page, size = 5, status }) {
@@ -28,6 +27,9 @@ export const useCandidateStore = defineStore("candidates ", {
       if (this.$state.currentPage < this.$state.totalPages - 1) {
         this.List({ page: this.currentPage + 1, status: status });
       }
+    },
+    changePage(pageNumber, status) {
+      this.List({ page: pageNumber - 1, status: status });
     },
     prevPage(status) {
       if (this.$state.currentPage > 0) {
@@ -75,7 +77,6 @@ export const useCandidateStore = defineStore("candidates ", {
         throw err;
       }
     },
-
     async getStatus() {
       const response = await UnsecureAxios.get(`${path}/status`);
       this.status = response.data;
