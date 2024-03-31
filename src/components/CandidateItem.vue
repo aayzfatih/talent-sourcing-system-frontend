@@ -23,7 +23,7 @@
     <i @click="openEditModal(candidate.id)" class="material-icons">edit</i>
   </td>
   <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
-    <button @click="openInteractionModal"
+    <button @click="openInteractionModal(candidate.id)"
       class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">Add
       Interaction</button>
   </td>
@@ -59,7 +59,9 @@ const status = [
   { id: 'Offer_Sent', name: 'Offer_Sent' },
 ]
 
-const openInteractionModal = () => {
+const openInteractionModal = (id) => {
+  console.log(id);
+  candidateStore.getCandidateById(id)
   emit('openInteractionModal')
 }
 const openEditModal = (id) => {
