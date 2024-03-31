@@ -46,11 +46,8 @@ export const useCandidateStore = defineStore("candidates ", {
       }
     },
     async deleteCandidate(id) {
-      this.candidates = this.candidates.filter(
-        (candidate) => candidate.id !== id
-      );
       const response = await UnsecureAxios.delete(`${path}/${id}`)
-        .then((res) => console.log(res))
+        .then((res) => this.List({ page: this.currentPage, status: "" }))
         .catch((err) => console.log(err));
     },
     async updateCandidate(id, updatedCandidate) {
