@@ -40,7 +40,7 @@
     </table>
     <div v-if="isInteractionModal" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
       <div class="bg-white p-6 rounded-lg shadow-lg">
-        <InteractionForm @openInteractionModal="changeInteractionModal" />
+        <InteractionForm @closeInteractionModal="changeInteractionModal" />
       </div>
     </div>
     <PaginationButtons :status="form.status" />
@@ -62,10 +62,6 @@ const showFilters = ref(false);
 const form = ref({
   status: '',
 })
-
-//Get states from stores
-const currentPage = candidateStore.currentPage;
-
 
 const status = [
   { id: 'Hired', name: 'Hired' },

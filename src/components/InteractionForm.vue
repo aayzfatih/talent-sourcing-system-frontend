@@ -8,36 +8,36 @@
         <div class="flex flex-col mt-8 space-y-5">
           <div class="bg-white p-4 rounded-lg shadow-md">
             <div class="flex flex-col justify-start">
-              <span class="text-sm sm:text-base leading-normal tracking-tight text-gray-800">Name:</span>
-              <h3 class="text-sm sm:text-base leading-normal text-indigo-800">{{ candidateStore.selectedCandidate.name
+              <span class="text-sm sm:text-base leading-normal tracking-tight text-blue-800">Name:</span>
+              <h3 class="text-sm sm:text-base leading-normal text-gray-800">{{ candidateStore.selectedCandidate.name
                 }}</h3>
             </div>
           </div>
           <div class="bg-white p-4 rounded-lg shadow-md">
             <div class="flex flex-col">
-              <span class="text-sm sm:text-base leading-normal tracking-tight text-gray-800">Surname:</span>
-              <h3 class="text-sm sm:text-base leading-normal text-indigo-800">{{
+              <span class="text-sm sm:text-base leading-normal tracking-tight text-blue-800">Surname:</span>
+              <h3 class="text-sm sm:text-base leading-normal text-gray-800">{{
                 candidateStore.selectedCandidate.surname }}</h3>
             </div>
           </div>
           <div class="bg-white p-4 rounded-lg shadow-md">
             <div class="flex flex-col">
-              <span class="text-sm sm:text-base leading-normal tracking-tight text-gray-800">Phone Number:</span>
-              <h3 class="text-sm sm:text-base leading-normal text-indigo-800">
+              <span class="text-sm sm:text-base leading-normal tracking-tight text-blue-800">Phone Number:</span>
+              <h3 class="text-sm sm:text-base leading-normal text-gray-800">
                 {{ candidateStore.selectedCandidate.phoneNumber }}</h3>
             </div>
           </div>
           <div class="bg-white p-4 rounded-lg shadow-md">
             <div class="flex flex-col">
-              <span class="text-sm sm:text-base leading-normal tracking-tight text-gray-800">Email:</span>
-              <h3 class="text-sm sm:text-base leading-normal text-indigo-800">{{ candidateStore.selectedCandidate.email
+              <span class="text-sm sm:text-base leading-normal tracking-tight text-blue-800">Email:</span>
+              <h3 class="text-sm sm:text-base leading-normal text-gray-800">{{ candidateStore.selectedCandidate.email
                 }}</h3>
             </div>
           </div>
         </div>
       </div>
 
-      <form action="https://fabform.io/f/{form-id}" method="post" class="md:col-span-8 p-10">
+      <form @submit.prevent="handleSubmit" class="md:col-span-8 p-10">
         <h3 class="text-xl mb-4 leading-normal font-extraboldmb-4">
           Görüşmeyi Yapan Kişinin
         </h3>
@@ -64,7 +64,7 @@
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
               Content
             </label>
-            <textarea rows="10"
+            <textarea v-model="formValue.content" rows="10"
               class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white "></textarea>
           </div>
           <button
@@ -72,19 +72,26 @@
             Interaction</button>
         </div>
       </form>
-
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineEmits } from 'vue';
+import { defineEmits, ref } from 'vue';
 import { useInteractionStore } from '@/stores/IntereactionStore';
 import { useCandidateStore } from '@/stores/CandidateStore';
 const candidateStore = useCandidateStore()
 const interactionStore = useInteractionStore()
+
+const formValue = ref({
+  content: '',
+  candidateResponded: false,
+  canidateId: candidateStore.selectedCandidate.id,
+  time: new Date().toISOString(),
+})
 const emit = defineEmits(['closeInteractionModal'])
-const closeInteractionModal = () => {
+const handleSubmit = () => {
+  interactionStore.addInteraction(formValue.value);
   emit("closeInteractionModal")
 }
 
