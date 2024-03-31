@@ -38,7 +38,7 @@ export const useCandidateStore = defineStore("candidates ", {
       try {
         const response = await UnsecureAxios.post(`${path}`, candidate);
         if (response.status === 201) {
-          this.List({ page: this.currentPage, status: "" });
+          this.List({ page: this.currentPage, status: this.status });
         }
         return response;
       } catch (err) {
@@ -47,23 +47,17 @@ export const useCandidateStore = defineStore("candidates ", {
     },
     async deleteCandidate(id) {
       const response = await UnsecureAxios.delete(`${path}/${id}`)
-        .then((res) => this.List({ page: this.currentPage, status: "" }))
+        .then((res) =>
+          this.List({ page: this.currentPage, status: this.status })
+        )
         .catch((err) => console.log(err));
     },
     async updateCandidate(id, updatedCandidate) {
-      const response = await UnsecureAxios.put(
-        `${path}/${id}`,
-        updatedCandidate
-      );
-      console.log(this.candidates);
-      if (response.status === 200) {
-        this.candidates = this.candidates.map((c) => {
-          if (c.id === id) {
-            return { ...c, ...updatedCandidate };
-          }
-          return c;
-        });
-      }
+      UnsecureAxios.put(`${path}/${id}`, updatedCandidate)
+        .then((res) => {
+          this.List({ page: this.currentPage, status: this.status });
+        })
+        .catch((err) => console.log(err));
     },
     async updateStatusById(id, updatedStatus) {
       this.candidates.map((candidate) => {
