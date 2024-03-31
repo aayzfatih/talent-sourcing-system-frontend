@@ -47,7 +47,7 @@
                 Time
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {{ form.time }}
+                {{ form.createdTime }}
               </dd>
             </div>
             <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -55,7 +55,7 @@
                 Content
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {{ form.content }}
+                <input v-model="form.content" />
               </dd>
             </div>
           </dl>
@@ -86,7 +86,7 @@ const err = ref("")
 const form = ref({
   id: 0,
   content: '',
-  time: '',
+  createdTime: '',
   candidateResponded: null,
   candidateName: '',
   candidateSurname: '',
@@ -105,11 +105,30 @@ const closeInteractionDetailModal = () => {
 
 UnsecureAxios.get(`/interactions/list/${props.id}`).then((response) => {
   form.value = response.data.data
+  let dateString = form.value.createdTime
+  const hasUTCOffset = /[+-]\d{2}:\d{2}$|Z$/.test(dateString);
+
+  if (!hasUTCOffset) {
+    dateString += "Z";
+  }
+  const date = new Date(dateString);
+  const locale = localStorage.getItem("locale") || "tr-TR"
+  form.value.createdTime = date.toLocaleDateString(locale, {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  }).replace(",", "");
+
 }).catch((error) => {
   err.value = error.response.data.message;
 })
 const editInteraction = () => {
-
+  console.log("click");
+  intereactionStore.updateInteraction(form.value.id, form.value)
+    .then(res => emit('closeInteractionDetailModal'))
+    .catch(err => console.log(err))
 }
 const deleteCandidateInteraction = () => {
   intereactionStore.deleteInteraction(form.value.id)

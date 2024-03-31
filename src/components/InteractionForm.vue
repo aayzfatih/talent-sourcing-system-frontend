@@ -71,7 +71,7 @@ const formValue = ref({
   content: '',
   candidateResponded: false,
   candidateId: props.candidateId,
-  time: new Date().toISOString(),
+  createdTime: new Date().toISOString(),
 })
 const emit = defineEmits(['closeInteractionModal'])
 interactionStore.interactionList()
