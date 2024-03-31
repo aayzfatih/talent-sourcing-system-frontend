@@ -1,15 +1,77 @@
 <template>
   <div>
-    <div v-if="err !== ''">{{ err }}</div>
+    <div v-if="err !== ''">
+      <div>
+        <i class="material-icons cursor-pointer" @click="closeInteractionDetailModal">west</i>
+        <p> {{ err }}</p>
+      </div>
+    </div>
     <div v-else>
-      <p>{{ form.id }}</p>
-      <p>{{ form.content }}</p>
-      <p>{{ form.time }}</p>
-      <p>{{ form.candidateResponded }}</p>
-      <p>{{ form.candidateName }}</p>
-      <p>{{ form.candidateSurname }}</p>
-      <p>{{ form.candidateStatus }}</p>
-      <button @click="closeInteractionDetailModal">Edit</button>
+      <div class="bg-white overflow-hidden shadow rounded-lg border">
+        <div class="px-4 py-5 sm:px-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Candidate View
+          </h3>
+          <p class="mt-1 max-w-2xl text-sm text-gray-500">
+            This is some information about the candidate interactions.
+          </p>
+        </div>
+        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+          <dl class="sm:divide-y sm:divide-gray-200">
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">
+                Name
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{ form.candidateName }}
+              </dd>
+            </div>
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">
+                Surname
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{ form.candidateSurname }}
+              </dd>
+            </div>
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">
+                Status
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{ form.candidateStatus }}
+              </dd>
+            </div>
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">
+                Time
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{ form.time }}
+              </dd>
+            </div>
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">
+                Content
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{ form.content }}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4 mt-3">
+        <button type="submit" @click="editInteraction"
+          class="text-blue-600 inline-flex items-center hover:text-white border border-blue-600 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-900">
+          Edit Candidate
+        </button>
+        <button @click="deleteCandidateInteraction" type="button"
+          class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+          <i class="material-icons">delete</i>
+          Delete
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -18,6 +80,9 @@
 import { useInteractionStore } from "@/stores/IntereactionStore";
 import { UnsecureAxios } from "@/utils/axios";
 import { ref, defineProps, defineEmits } from "vue";
+const emit = defineEmits(["closeInteractionDetailModal"])
+const intereactionStore = useInteractionStore()
+const err = ref("")
 const form = ref({
   id: 0,
   content: '',
@@ -27,7 +92,6 @@ const form = ref({
   candidateSurname: '',
   candidateStatus: ''
 })
-const err = ref("")
 const props = defineProps({
   id: {
     type: Number,
@@ -35,17 +99,21 @@ const props = defineProps({
   }
 
 })
+const closeInteractionDetailModal = () => {
+  emit("closeInteractionDetailModal")
+}
 
 UnsecureAxios.get(`/interactions/list/${props.id}`).then((response) => {
   form.value = response.data.data
 }).catch((error) => {
   err.value = error.response.data.message;
 })
+const editInteraction = () => {
 
-
-
-const emit = defineEmits(["closeInteractionDetailModal"])
-const closeInteractionDetailModal = () => {
-  emit('closeInteractionDetailModal')
+}
+const deleteCandidateInteraction = () => {
+  intereactionStore.deleteInteraction(form.value.id)
+    .then(res => emit('closeInteractionDetailModal'))
+    .catch(err => console.log(err))
 }
 </script>
