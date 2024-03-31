@@ -32,17 +32,24 @@
       <CandidateEdit :candidateId="candidate.id" @closeEditModal="closeEditModal" />
     </div>
   </div>
+  <div v-if="isInteractionModal" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <InteractionForm :candidateId="candidate.id" @closeInteractionModal="changeInteractionModal" />
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { defineProps, defineEmits, ref, watch } from 'vue';
 import { useCandidateStore } from '@/stores/CandidateStore';
 import CandidateEdit from './CandidateEdit.vue'
+import InteractionForm from './InteractionForm.vue'
 import Selectbox from "./select-box.vue";
 const isEditModalOpen = ref(false)
+const isInteractionModal = ref(false)
 const showStatus = ref(false)
 const candidateStore = useCandidateStore()
-const emit = defineEmits(['openInteractionModal', 'openEditModal'])
+const emit = defineEmits(['openEditModal'])
 const props = defineProps({
   candidate: {
     type: Object,
@@ -61,7 +68,10 @@ const status = [
 
 const openInteractionModal = (id) => {
   candidateStore.getCandidateById(id)
-  emit('openInteractionModal')
+  isInteractionModal.value = !isInteractionModal.value
+}
+const changeInteractionModal = () => {
+  isInteractionModal.value = !isInteractionModal.value
 }
 const openEditModal = (id) => {
   candidateStore.getCandidateById(id)

@@ -34,17 +34,10 @@
       </thead>
       <tbody class="bg-white ">
         <tr v-for="candidate in candidateStore.candidates">
-          <CandidateItem @openInteractionModal="changeInteractionModal" :candidate="candidate" />
-          <div v-if="isInteractionModal"
-            class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-              <InteractionForm :candidateId="candidate.id" @closeInteractionModal="changeInteractionModal" />
-            </div>
-          </div>
+          <CandidateItem :candidate="candidate" />
         </tr>
       </tbody>
     </table>
-
     <PaginationButtons :status="form.status" />
   </div>
 
@@ -53,13 +46,13 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useCandidateStore } from '@/stores/CandidateStore';
-import InteractionForm from './InteractionForm.vue'
+
 import CandidateItem from './CandidateItem.vue'
 import PaginationButtons from './PaginationButtons.vue'
 import Selectbox from "./select-box.vue";
 
 const candidateStore = useCandidateStore()
-const isInteractionModal = ref(false)
+
 const showFilters = ref(false);
 const form = ref({
   status: '',
@@ -71,11 +64,6 @@ const status = [
   { id: 'Interviewing', name: 'Interviewing' },
   { id: 'Offer_Sent', name: 'Offer_Sent' },
 ]
-
-//Change modal state
-const changeInteractionModal = () => {
-  isInteractionModal.value = !isInteractionModal.value
-}
 
 //filter by status
 const clearFilter = () => {

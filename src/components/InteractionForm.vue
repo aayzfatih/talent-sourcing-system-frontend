@@ -70,8 +70,8 @@ const props = defineProps({
 const formValue = ref({
   content: '',
   candidateResponded: false,
-  canidateId: props.candidateId,
-  time: "",
+  candidateId: props.candidateId,
+  time: new Date().toISOString(),
 })
 const emit = defineEmits(['closeInteractionModal'])
 interactionStore.interactionList()
