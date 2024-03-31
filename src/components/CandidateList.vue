@@ -34,13 +34,13 @@
       </thead>
       <tbody class="bg-white ">
         <tr v-for="candidate in candidateStore.candidates">
-          <CandidateItem @openDetailModal="changeDetailModal" :candidate="candidate" />
+          <CandidateItem @openInteractionModal="changeInteractionModal" :candidate="candidate" />
         </tr>
       </tbody>
     </table>
-    <div v-if="isDetailModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
+    <div v-if="isInteractionModal" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
       <div class="bg-white p-6 rounded-lg shadow-lg">
-        <CandidateDetail @closeDetailModal="changeDetailModal" />
+        <InteractionForm @openInteractionModal="changeInteractionModal" />
       </div>
     </div>
     <PaginationButtons :status="form.status" />
@@ -51,13 +51,13 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useCandidateStore } from '@/stores/CandidateStore';
-import CandidateDetail from './CandidateDetail.vue'
+import InteractionForm from './InteractionForm.vue'
 import CandidateItem from './CandidateItem.vue'
 import PaginationButtons from './PaginationButtons.vue'
 import Selectbox from "./select-box.vue";
 
 const candidateStore = useCandidateStore()
-const isDetailModalOpen = ref(false)
+const isInteractionModal = ref(false)
 const showFilters = ref(false);
 const form = ref({
   status: '',
@@ -75,8 +75,8 @@ const status = [
 ]
 
 //Change modal state
-const changeDetailModal = () => {
-  isDetailModalOpen.value = !isDetailModalOpen.value
+const changeInteractionModal = () => {
+  isInteractionModal.value = !isInteractionModal.value
 }
 
 //filter by status

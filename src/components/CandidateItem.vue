@@ -23,9 +23,9 @@
     <i @click="openEditModal(candidate.id)" class="material-icons">edit</i>
   </td>
   <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
-    <button @click="openDetailModal(candidate.id)"
-      class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">View
-      Details</button>
+    <button @click="openInteractionModal(candidate.id)"
+      class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">Add
+      Interaction</button>
   </td>
   <div v-if="isEditModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
     <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
@@ -38,14 +38,12 @@
 <script setup>
 import { defineProps, defineEmits, ref, watch } from 'vue';
 import { useCandidateStore } from '@/stores/CandidateStore';
-import { useInteractionStore } from '@/stores/IntereactionStore';
 import CandidateEdit from './CandidateEdit.vue'
 import Selectbox from "./select-box.vue";
 const isEditModalOpen = ref(false)
-const interactionStore = useInteractionStore()
 const showStatus = ref(false)
 const candidateStore = useCandidateStore()
-const emit = defineEmits(['openDetailModal', 'openEditModal'])
+const emit = defineEmits(['openInteractionModal', 'openEditModal'])
 const props = defineProps({
   candidate: {
     type: Object,
@@ -62,9 +60,9 @@ const status = [
   { id: 'Offer_Sent', name: 'Offer_Sent' },
 ]
 
-const openDetailModal = (id) => {
-  interactionStore.interactionList(id)
-  emit('openDetailModal')
+const openInteractionModal = (id) => {
+  candidateStore.getCandidateById(id)
+  emit('openInteractionModal')
 }
 const openEditModal = (id) => {
   candidateStore.getCandidateById(id)

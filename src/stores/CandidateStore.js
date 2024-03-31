@@ -27,8 +27,14 @@ export const useCandidateStore = defineStore("candidates ", {
       }
     },
     async getCandidateById(id) {
-      const response = await UnsecureAxios.get(`${path}/list/${id}`);
-      this.selectedCandidate = response.data.data;
+      try {
+        const response = await UnsecureAxios.get(`${path}/list/${id}`);
+        if (response.status === 200) {
+          this.selectedCandidate = response.data.data;
+        }
+      } catch (err) {
+        console.log(err);
+      }
     },
     nextPage(status) {
       if (this.$state.currentPage < this.$state.totalPages - 1) {
