@@ -21,6 +21,7 @@
   <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5 cursor-pointer">
     <i @click="deleteCandidate(candidate.id)" class="material-icons ">delete</i>
     <i @click="openEditModal(candidate.id)" class="material-icons">edit</i>
+    <i @click="openInteractionDetailModal(candidate.id)" class="material-icons">visibility</i>
   </td>
   <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
     <button @click="openInteractionModal(candidate.id)"
@@ -37,6 +38,11 @@
       <InteractionForm :candidateId="candidate.id" @closeInteractionModal="changeInteractionModal" />
     </div>
   </div>
+  <div v-if="isInteractionDetailModal" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <InteractionDetail :id="candidate.id" @closeInteractionDetailModal="changeInteractionDetailModal" />
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -44,9 +50,11 @@ import { defineProps, defineEmits, ref, watch } from 'vue';
 import { useCandidateStore } from '@/stores/CandidateStore';
 import CandidateEdit from './CandidateEdit.vue'
 import InteractionForm from './InteractionForm.vue'
+import InteractionDetail from './InteractionDetail.vue'
 import Selectbox from "./select-box.vue";
 const isEditModalOpen = ref(false)
 const isInteractionModal = ref(false)
+const isInteractionDetailModal = ref(false)
 const showStatus = ref(false)
 const candidateStore = useCandidateStore()
 const emit = defineEmits(['openEditModal'])
@@ -73,6 +81,14 @@ const openInteractionModal = (id) => {
 const changeInteractionModal = () => {
   isInteractionModal.value = !isInteractionModal.value
 }
+
+const openInteractionDetailModal = () => {
+  isInteractionDetailModal.value = !isInteractionDetailModal.value
+}
+const changeInteractionDetailModal = () => {
+  isInteractionDetailModal.value = !isInteractionDetailModal.value
+}
+
 const openEditModal = (id) => {
   candidateStore.getCandidateById(id)
   isEditModalOpen.value = !isEditModalOpen.value
@@ -80,6 +96,7 @@ const openEditModal = (id) => {
 const closeEditModal = () => {
   isEditModalOpen.value = !isEditModalOpen.value
 }
+
 const deleteCandidate = (id) => {
   candidateStore.deleteCandidate(id)
 }

@@ -12,7 +12,6 @@ export const useInteractionStore = defineStore("interactions", {
       try {
         const response = await UnsecureAxios.get(`${path}/list`);
         if (response.status === 200) {
-          console.log(response.data.data);
           this.interactions = response.data;
         }
       } catch (err) {
