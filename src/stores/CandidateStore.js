@@ -9,7 +9,6 @@ export const useCandidateStore = defineStore("candidates ", {
     currentPage: 0,
     status: [],
   }),
-  getters: {},
   actions: {
     async List(page, size, status) {
       const response = await UnsecureAxios.get(
@@ -51,8 +50,23 @@ export const useCandidateStore = defineStore("candidates ", {
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
     },
-    async updateCandidate(id, candidate) {
-      const response = await UnsecureAxios.put(`${path}/${id}`, candidate);
+
+    async updateCandidate(id, updatedCandidate) {
+      // Veritabanını güncelle
+      const response = await UnsecureAxios.put(
+        `${path}/${id}`,
+        updatedCandidate
+      );
+      console.log(this.candidates);
+      // Veritabanı güncelleme başarılı olduysa yerel aday listesini güncelle
+      if (response.status === 200) {
+        this.candidates = this.candidates.map((c) => {
+          if (c.id === id) {
+            return { ...c, ...updatedCandidate };
+          }
+          return c;
+        });
+      }
     },
     async getStatus() {
       const response = await UnsecureAxios.get(`${path}/status`);

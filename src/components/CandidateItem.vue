@@ -20,12 +20,20 @@
       class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">View
       Details</button>
   </td>
+  <div v-if="isEditModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+      <CandidateEdit :candidateId="candidate.id" @closeEditModal="closeEditModal" />
+    </div>
+  </div>
+
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 import { useCandidateStore } from '@/stores/CandidateStore';
 import { useInteractionStore } from '@/stores/IntereactionStore';
+import CandidateEdit from './CandidateEdit.vue'
+const isEditModalOpen = ref(false)
 const interactionStore = useInteractionStore()
 
 const candidateStore = useCandidateStore()
@@ -42,6 +50,9 @@ const openDetailModal = (id) => {
 }
 const openEditModal = (id) => {
   candidateStore.getCandidateById(id)
-  emit('openEditModal')
+  isEditModalOpen.value = !isEditModalOpen.value
+}
+const closeEditModal = () => {
+  isEditModalOpen.value = !isEditModalOpen.value
 }
 </script>

@@ -34,7 +34,7 @@
       </thead>
       <tbody class="bg-white ">
         <tr v-for="candidate in candidateStore.candidates">
-          <CandidateItem @openEditModal="changeEditModal" @openDetailModal="changeDetailModal" :candidate="candidate" />
+          <CandidateItem @openDetailModal="changeDetailModal" :candidate="candidate" />
         </tr>
       </tbody>
     </table>
@@ -43,19 +43,8 @@
         <CandidateDetail @closeDetailModal="changeDetailModal" />
       </div>
     </div>
-    <div v-if="isEditModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
-      <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
-        <CandidateEdit @closeEditModal="changeEditModal" />
-      </div>
-    </div>
 
     <PaginationButtons />
-
-    <div v-if="isEditModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
-      <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
-        <CandidateEdit @closeEditModal="changeEditModal" />
-      </div>
-    </div>
 
 
   </div>
@@ -67,13 +56,11 @@ import { ref, watch } from 'vue'
 import { useCandidateStore } from '@/stores/CandidateStore';
 import CandidateDetail from './CandidateDetail.vue'
 import CandidateItem from './CandidateItem.vue'
-import CandidateEdit from './CandidateEdit.vue'
 import PaginationButtons from './PaginationButtons.vue'
 import Selectbox from "./select-box.vue";
 
 const candidateStore = useCandidateStore()
 const isDetailModalOpen = ref(false)
-const isEditModalOpen = ref(false)
 const showFilters = ref(false);
 const form = ref({
   status: '',
@@ -95,9 +82,7 @@ const status = [
 const changeDetailModal = () => {
   isDetailModalOpen.value = !isDetailModalOpen.value
 }
-const changeEditModal = () => {
-  isEditModalOpen.value = !isEditModalOpen.value
-}
+
 
 //filter by status
 const clearFilter = () => {
