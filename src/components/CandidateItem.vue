@@ -8,8 +8,18 @@
     {{ candidate.phoneNumber }}</td>
   <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
     {{ candidate.email }}</td>
-  <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-    {{ candidate.status }}
+  <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
+
+    <div v-if="showStatus">
+      <Selectbox :placeholder="candidate.status" v-model="form.status" :options="status" />
+      {{ candidate.status }}
+
+    </div>
+    <div class="flex items-center" v-else>
+      {{ candidate.status }}
+      <i @click="showStatus = !showStatus" class="material-icons cursor-pointer">keyboard_arrow_down</i>
+    </div>
+
   </td>
   <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5 cursor-pointer">
     <i @click="candidateStore.deleteCandidate(candidate.id)" class="material-icons ">delete</i>
@@ -29,13 +39,14 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref } from 'vue';
+import { defineProps, defineEmits, ref, watch } from 'vue';
 import { useCandidateStore } from '@/stores/CandidateStore';
 import { useInteractionStore } from '@/stores/IntereactionStore';
 import CandidateEdit from './CandidateEdit.vue'
+import Selectbox from "./select-box.vue";
 const isEditModalOpen = ref(false)
 const interactionStore = useInteractionStore()
-
+const showStatus = ref(false)
 const candidateStore = useCandidateStore()
 const emit = defineEmits(['openDetailModal', 'openEditModal'])
 const props = defineProps({
@@ -44,6 +55,16 @@ const props = defineProps({
     required: true
   }
 })
+const form = ref({
+  status: '',
+})
+const status = [
+  { id: 'Hired', name: 'Hired' },
+  { id: 'Sourced', name: 'Sourced' },
+  { id: 'Interviewing', name: 'Interviewing' },
+  { id: 'Offer_Sent', name: 'Offer_Sent' },
+]
+
 const openDetailModal = (id) => {
   interactionStore.interactionList(id)
   emit('openDetailModal')
@@ -55,4 +76,8 @@ const openEditModal = (id) => {
 const closeEditModal = () => {
   isEditModalOpen.value = !isEditModalOpen.value
 }
+watch(() => form.value.status, (value) => {
+  candidateStore.updateStatusById(props.candidate.id, value)
+})
+
 </script>

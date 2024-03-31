@@ -10,7 +10,7 @@
         </button>
       </div>
       <div class="">
-        <div v-if="showFilters" class="">
+        <div v-if="showFilters">
           <Selectbox v-model="form.status" :options="status" />
         </div>
       </div>
@@ -82,7 +82,6 @@ const status = [
 const changeDetailModal = () => {
   isDetailModalOpen.value = !isDetailModalOpen.value
 }
-
 
 //filter by status
 const clearFilter = () => {
