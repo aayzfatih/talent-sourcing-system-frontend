@@ -43,10 +43,7 @@
         <CandidateDetail @closeDetailModal="changeDetailModal" />
       </div>
     </div>
-
-    <PaginationButtons />
-
-
+    <PaginationButtons :status="form.status" />
   </div>
 
 </template>

@@ -24,14 +24,14 @@ export const useCandidateStore = defineStore("candidates ", {
       const response = await UnsecureAxios.get(`${path}/list/${id}`);
       this.selectedCandidate = response.data.data;
     },
-    nextPage() {
+    nextPage(status) {
       if (this.$state.currentPage < this.$state.totalPages - 1) {
-        this.List(this.currentPage + 1, 3);
+        this.List(this.currentPage + 1, 3, status);
       }
     },
-    prevPage() {
+    prevPage(status) {
       if (this.$state.currentPage > 0) {
-        this.List(this.currentPage - 1, 3);
+        this.List(this.currentPage - 1, 3, status);
       }
     },
     async addCandidate(candidate) {

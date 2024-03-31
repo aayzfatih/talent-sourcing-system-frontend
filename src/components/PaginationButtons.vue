@@ -51,12 +51,18 @@
 <script setup>
 import { useCandidateStore } from '@/stores/CandidateStore';
 const candidateStore = useCandidateStore()
+import { defineProps } from 'vue';
 
-candidateStore.List(0, 3, "")
+const props = defineProps({
+  status: {
+    type: String,
+    default: "",
+  },
+})
+candidateStore.List(0, 3, props.status)
 
-//Pagination
-const nextPage = () => candidateStore.nextPage();
-const prevPage = () => candidateStore.prevPage();
+const nextPage = () => candidateStore.nextPage(props.status);
+const prevPage = () => candidateStore.prevPage(props.status);
 
 
 </script>
