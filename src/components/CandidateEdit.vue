@@ -66,7 +66,7 @@ const props = defineProps({
   }
 })
 const candidateStore = useCandidateStore()
-
+candidateStore.getStatus();
 const formData = computed(() => ({
   id: candidateStore.selectedCandidate.id,
   name: candidateStore.selectedCandidate.name,
