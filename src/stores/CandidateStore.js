@@ -40,7 +40,7 @@ export const useCandidateStore = defineStore("candidates ", {
       try {
         const response = await UnsecureAxios.post(`${path}`, candidate);
         if (response.status === 201) {
-          this.List({ page: this.currentPage, status: this.status });
+          this.List({ page: this.currentPage, status: "" });
         }
         return response;
       } catch (err) {
