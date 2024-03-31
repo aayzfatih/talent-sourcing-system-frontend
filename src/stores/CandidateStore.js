@@ -40,11 +40,9 @@ export const useCandidateStore = defineStore("candidates ", {
         if (response.status === 201) {
           this.List({ page: this.currentPage, status: "" });
         }
-
         return response;
       } catch (err) {
-        console.log(err);
-        return err; // If needed, you can return the error object
+        throw err;
       }
     },
     async deleteCandidate(id) {
