@@ -60,7 +60,6 @@ const status = [
 ]
 
 const openInteractionModal = (id) => {
-  console.log(id);
   candidateStore.getCandidateById(id)
   emit('openInteractionModal')
 }
