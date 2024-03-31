@@ -9,11 +9,9 @@
   <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
     {{ candidate.email }}</td>
   <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
-
     <div v-if="showStatus">
       <Selectbox :placeholder="candidate.status" v-model="form.status" :options="status" />
       {{ candidate.status }}
-
     </div>
     <div class="flex items-center" v-else>
       {{ candidate.status }}
@@ -77,7 +75,14 @@ const closeEditModal = () => {
   isEditModalOpen.value = !isEditModalOpen.value
 }
 watch(() => form.value.status, (value) => {
-  candidateStore.updateStatusById(props.candidate.id, value)
+  candidateStore.updateStatusById(props.candidate.id, value).then((res) => {
+    if (res) {
+
+      form.value.status = res.data.data.status
+
+      showStatus.value = !showStatus.value
+    }
+  })
 })
 
 </script>

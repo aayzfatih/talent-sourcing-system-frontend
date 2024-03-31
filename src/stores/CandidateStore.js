@@ -60,17 +60,20 @@ export const useCandidateStore = defineStore("candidates ", {
         .catch((err) => console.log(err));
     },
     async updateStatusById(id, updatedStatus) {
-      this.candidates.map((candidate) => {
-        if (candidate.id === id) {
-          return { ...candidate, status: updatedStatus };
+      try {
+        const response = await UnsecureAxios.put(`${path}/status/${id}`, {
+          status: updatedStatus,
+        });
+        if (response.status === 200) {
+          this.candidates[this.candidates.findIndex((c) => c.id === id)] = {
+            ...this.candidates[this.candidates.findIndex((c) => c.id === id)],
+            status: updatedStatus,
+          };
         }
-        return candidate;
-      });
-      const response = await UnsecureAxios.put(`${path}/status/${id}`, {
-        status: updatedStatus,
-      });
-      console.log(this.candidates);
-      console.log(response.data);
+        return response;
+      } catch (err) {
+        throw err;
+      }
     },
 
     async getStatus() {
