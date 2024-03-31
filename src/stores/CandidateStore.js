@@ -104,7 +104,7 @@ export const useCandidateStore = defineStore("candidates ", {
       try {
         const response = await UnsecureAxios.get(`${path}/status`);
         if (response.status === 200) {
-          console.log(response);
+          this.status = response.data;
         }
       } catch (err) {
         throw err;
