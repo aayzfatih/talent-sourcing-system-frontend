@@ -65,7 +65,6 @@ const form = ref({
 
 //Get states from stores
 const currentPage = candidateStore.currentPage;
-candidateStore.getStatus();
 
 
 const status = [
@@ -84,7 +83,7 @@ const changeDetailModal = () => {
 const clearFilter = () => {
   showFilters.value = false;
   form.value.status = '';
-  candidateStore.List({ page: currentPage, status: "" })
+  candidateStore.List({ page: 0, status: "" })
 };
 
 watch(() => form.value.status, (value) => {

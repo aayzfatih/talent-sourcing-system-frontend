@@ -11,7 +11,6 @@
   <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
     <div v-if="showStatus">
       <Selectbox :placeholder="candidate.status" v-model="form.status" :options="status" />
-      {{ candidate.status }}
     </div>
     <div class="flex items-center" v-else>
       {{ candidate.status }}

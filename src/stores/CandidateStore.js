@@ -95,8 +95,14 @@ export const useCandidateStore = defineStore("candidates ", {
       }
     },
     async getStatus() {
-      const response = await UnsecureAxios.get(`${path}/status`);
-      this.status = response.data;
+      try {
+        const response = await UnsecureAxios.get(`${path}/status`);
+        if (response.status === 200) {
+          console.log(response);
+        }
+      } catch (err) {
+        throw err;
+      }
     },
   },
 });
