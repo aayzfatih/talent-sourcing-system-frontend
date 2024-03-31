@@ -47,7 +47,8 @@
               class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white "></textarea>
           </div>
           <button
-            class="ml-3 px-5 py-2 rounded-full border-blue-500 border text-blue-500  transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">Add
+            class="ml-3 px-5 py-2 rounded-full border-blue-500 border text-blue-500  transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">
+            Add
             Interaction</button>
         </div>
       </form>
@@ -67,6 +68,7 @@ const props = defineProps({
     required: true
   }
 })
+const err = ref("")
 const formValue = ref({
   content: '',
   candidateResponded: false,
@@ -77,6 +79,8 @@ const emit = defineEmits(['closeInteractionModal'])
 interactionStore.interactionList()
 const handleSubmit = () => {
   interactionStore.addInteraction(formValue.value)
+    .then(res => ref.status === 200 ? null : alert(res.response.data.message))
+    .catch(err => console.log(err))
   emit("closeInteractionModal")
 }
 

@@ -25,7 +25,7 @@ export const useInteractionStore = defineStore("interactions", {
         }
         return response;
       } catch (err) {
-        console.log(err);
+        return err;
       }
     },
     async deleteInteraction(id) {

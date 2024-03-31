@@ -125,7 +125,6 @@ UnsecureAxios.get(`/interactions/list/${props.id}`).then((response) => {
   err.value = error.response.data.message;
 })
 const editInteraction = () => {
-  console.log("click");
   intereactionStore.updateInteraction(form.value.id, form.value)
     .then(res => emit('closeInteractionDetailModal'))
     .catch(err => console.log(err))
