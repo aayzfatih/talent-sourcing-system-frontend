@@ -13,7 +13,6 @@
     </div>
   </nav>
 
-
 </template>
 <script setup>
 import { defineEmits } from 'vue';

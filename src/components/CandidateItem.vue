@@ -20,7 +20,7 @@
 
   </td>
   <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5 cursor-pointer">
-    <i @click="candidateStore.deleteCandidate(candidate.id)" class="material-icons ">delete</i>
+    <i @click="deleteCandidate(candidate.id)" class="material-icons ">delete</i>
     <i @click="openEditModal(candidate.id)" class="material-icons">edit</i>
   </td>
   <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
@@ -73,6 +73,9 @@ const openEditModal = (id) => {
 }
 const closeEditModal = () => {
   isEditModalOpen.value = !isEditModalOpen.value
+}
+const deleteCandidate = (id) => {
+  candidateStore.deleteCandidate(id)
 }
 watch(() => form.value.status, (value) => {
   candidateStore.updateStatusById(props.candidate.id, value).then((res) => {

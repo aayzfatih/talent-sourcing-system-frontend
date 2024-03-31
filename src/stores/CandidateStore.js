@@ -7,17 +7,24 @@ export const useCandidateStore = defineStore("candidates ", {
     selectedCandidate: {},
     totalPages: 0,
     currentPage: 3,
+    status: [],
   }),
   actions: {
     async List({ page, size = 5, status }) {
-      const response = await UnsecureAxios.get(
-        `${path}/list?page=${page}&size=${size}${
-          status ? `&status=${status}` : ""
-        }`
-      );
-      this.candidates = response.data.data.content;
-      this.$patch({ totalPages: response.data.data.totalPages });
-      this.$patch({ currentPage: response.data.data.pageNo });
+      try {
+        const response = await UnsecureAxios.get(
+          `${path}/list?page=${page}&size=${size}${
+            status ? `&status=${status}` : ""
+          }`
+        );
+        if (response.status === 200) {
+          this.candidates = response.data.data.content;
+          this.$patch({ totalPages: response.data.data.totalPages });
+          this.$patch({ currentPage: response.data.data.pageNo });
+        }
+      } catch (err) {
+        throw err;
+      }
     },
     async getCandidateById(id) {
       const response = await UnsecureAxios.get(`${path}/list/${id}`);
@@ -48,18 +55,28 @@ export const useCandidateStore = defineStore("candidates ", {
       }
     },
     async deleteCandidate(id) {
-      const response = await UnsecureAxios.delete(`${path}/${id}`)
-        .then((res) =>
-          this.List({ page: this.currentPage, status: this.status })
-        )
-        .catch((err) => console.log(err));
+      try {
+        const response = await UnsecureAxios.delete(`${path}/${id}`);
+        if (response.status === 204) {
+          this.List({ page: this.currentPage, status: "" });
+        }
+        return response;
+      } catch (err) {
+        throw err;
+      }
     },
     async updateCandidate(id, updatedCandidate) {
-      UnsecureAxios.put(`${path}/${id}`, updatedCandidate)
-        .then((res) => {
-          this.List({ page: this.currentPage, status: this.status });
-        })
-        .catch((err) => console.log(err));
+      try {
+        const response = await UnsecureAxios.put(
+          `${path}/${id}`,
+          updatedCandidate
+        );
+        if (response.status === 200) {
+          this.List({ page: this.currentPage, status: "" });
+        }
+      } catch (err) {
+        throw err;
+      }
     },
     async updateStatusById(id, updatedStatus) {
       try {
