@@ -10,7 +10,7 @@ export const useCandidateStore = defineStore("candidates ", {
     status: [],
   }),
   actions: {
-    async List(page, size, status) {
+    async List({ page, size = 5, status }) {
       const response = await UnsecureAxios.get(
         `${path}/list?page=${page}&size=${size}${
           status ? `&status=${status}` : ""
@@ -26,19 +26,19 @@ export const useCandidateStore = defineStore("candidates ", {
     },
     nextPage(status) {
       if (this.$state.currentPage < this.$state.totalPages - 1) {
-        this.List(this.currentPage + 1, 3, status);
+        this.List({ page: this.currentPage + 1, status: status });
       }
     },
     prevPage(status) {
       if (this.$state.currentPage > 0) {
-        this.List(this.currentPage - 1, 3, status);
+        this.List({ page: this.currentPage - 1, status: status });
       }
     },
     async addCandidate(candidate) {
       try {
         const response = await UnsecureAxios.post(`${path}`, candidate);
         if (response.status === 201) {
-          this.List(this.currentPage, 3, "");
+          this.List({ page: this.currentPage, status: "" });
         }
 
         return response;

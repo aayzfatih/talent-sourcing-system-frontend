@@ -84,11 +84,10 @@ const changeDetailModal = () => {
 const clearFilter = () => {
   showFilters.value = false;
   form.value.status = '';
-  candidateStore.List(currentPage, 3, "")
+  candidateStore.List({ page: currentPage, status: "" })
 };
 
 watch(() => form.value.status, (value) => {
-  console.log(value)
-  candidateStore.List(currentPage, 3, value)
+  candidateStore.List({ page: currentPage, status: value })
 })
 </script>

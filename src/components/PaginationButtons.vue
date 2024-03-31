@@ -59,7 +59,7 @@ const props = defineProps({
     default: "",
   },
 })
-candidateStore.List(0, 3, props.status)
+candidateStore.List({ page: 0, status: '' })
 
 const nextPage = () => candidateStore.nextPage(props.status);
 const prevPage = () => candidateStore.prevPage(props.status);
