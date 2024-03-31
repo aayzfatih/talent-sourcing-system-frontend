@@ -35,14 +35,16 @@
       <tbody class="bg-white ">
         <tr v-for="candidate in candidateStore.candidates">
           <CandidateItem @openInteractionModal="changeInteractionModal" :candidate="candidate" />
+          <div v-if="isInteractionModal"
+            class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+              <InteractionForm :candidateId="candidate.id" @closeInteractionModal="changeInteractionModal" />
+            </div>
+          </div>
         </tr>
       </tbody>
     </table>
-    <div v-if="isInteractionModal" class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50">
-      <div class="bg-white p-6 rounded-lg shadow-lg">
-        <InteractionForm @closeInteractionModal="changeInteractionModal" />
-      </div>
-    </div>
+
     <PaginationButtons :status="form.status" />
   </div>
 

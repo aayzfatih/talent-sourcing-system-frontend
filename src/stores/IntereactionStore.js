@@ -12,10 +12,12 @@ export const useInteractionStore = defineStore("interactions", {
       try {
         const response = await UnsecureAxios.get(`${path}/list`);
         if (response.status === 200) {
-          console.log(response.data);
-          // this.interactions = response.data;
+          console.log(response.data.data);
+          this.interactions = response.data;
         }
-      } catch {}
+      } catch (err) {
+        throw err;
+      }
     },
     async interactionById(id) {
       const response = await UnsecureAxios.get(`${path}/list/${id}`);
@@ -23,9 +25,9 @@ export const useInteractionStore = defineStore("interactions", {
       this.currentInteraction = response.data.data;
     },
     async addInteraction(interaction) {
-      console.log(interaction);
       try {
         const response = await UnsecureAxios.post(`${path}`, interaction);
+        console.log(response);
         if (response.status === 200) {
           this.interactionList();
         }

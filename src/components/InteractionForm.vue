@@ -38,31 +38,10 @@
       </div>
 
       <form @submit.prevent="handleSubmit" class="md:col-span-8 p-10">
-        <h3 class="text-xl mb-4 leading-normal font-extraboldmb-4">
-          Görüşmeyi Yapan Kişinin
-        </h3>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-              First Name
-            </label>
-            <input
-              class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name" type="text" placeholder="Name">
-          </div>
-          <div class="w-full md:w-1/2 px-3">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-              Last Name
-            </label>
-            <input
-              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white "
-              id="grid-last-name" type="text" placeholder="Doe">
-          </div>
-        </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="flex flex-wrap items-center -mx-3 mb-6">
           <div class="w-full px-3">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-              Content
+              Conversation Content
             </label>
             <textarea v-model="formValue.content" rows="10"
               class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white "></textarea>
@@ -82,16 +61,22 @@ import { useInteractionStore } from '@/stores/IntereactionStore';
 import { useCandidateStore } from '@/stores/CandidateStore';
 const candidateStore = useCandidateStore()
 const interactionStore = useInteractionStore()
-
+const props = defineProps({
+  candidateId: {
+    type: Number,
+    required: true
+  }
+})
 const formValue = ref({
   content: '',
   candidateResponded: false,
-  canidateId: candidateStore.selectedCandidate.id,
-  time: new Date().toISOString(),
+  canidateId: props.candidateId,
+  time: "",
 })
 const emit = defineEmits(['closeInteractionModal'])
+interactionStore.interactionList()
 const handleSubmit = () => {
-  interactionStore.addInteraction(formValue.value);
+  interactionStore.addInteraction(formValue.value)
   emit("closeInteractionModal")
 }
 
