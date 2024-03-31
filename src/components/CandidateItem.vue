@@ -77,9 +77,7 @@ const closeEditModal = () => {
 watch(() => form.value.status, (value) => {
   candidateStore.updateStatusById(props.candidate.id, value).then((res) => {
     if (res) {
-
       form.value.status = res.data.data.status
-
       showStatus.value = !showStatus.value
     }
   })

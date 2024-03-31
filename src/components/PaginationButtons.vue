@@ -22,9 +22,10 @@
             </svg>
           </button>
         </div>
-        <div v-for="pageNumber in candidateStore.totalPages">
-          <button @click="changePage(pageNumber)"
-            class="-ml-px  inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-300 text-sm leading-5 font-medium text-blue-900 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-blue-700 hover:text-white">
+        <div>
+          <button v-for="pageNumber in candidateStore.totalPages" @click="changePage(pageNumber)" :key="pageNumber"
+            class="-ml-px  inline-flex items-center px-4 py-2 border border-gray-300 bg-gray-100 text-sm leading-5 font-medium text-gray-900 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-blue-700 hover:text-white"
+            :class="{ 'bg-blue-600 text-white hover:bg-blue-400 focus:ring-blue-300': pageNumber === candidateStore.currentPage + 1 }">
             {{ pageNumber }}
           </button>
         </div>
@@ -59,6 +60,4 @@ candidateStore.List({ page: 0, status: '' })
 const nextPage = () => candidateStore.nextPage(props.status);
 const changePage = (pageNumber) => { candidateStore.changePage(pageNumber, props.status) }
 const prevPage = () => candidateStore.prevPage(props.status);
-
-
 </script>
