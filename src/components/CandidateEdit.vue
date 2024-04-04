@@ -1,6 +1,7 @@
 <template>
   <section class="bg-white dark:bg-gray-900">
     <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
+      <i class="material-icons cursor-pointer" @click="closeCandidateForm">west</i>
       <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update Candidate</h2>
       <form @submit.prevent="handleSubmit(candidateId)">
         <div class="flex flex-col sm:gap-6 sm:mb-5">
@@ -83,6 +84,9 @@ const handleSubmit = () => {
 }
 const deleteCandidateItem = () => {
   candidateStore.deleteCandidate(formData.value.id);
+  emit('closeEditModal')
+}
+const closeCandidateForm = () => {
   emit('closeEditModal')
 }
 </script>

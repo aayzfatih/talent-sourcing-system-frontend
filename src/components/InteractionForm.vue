@@ -1,5 +1,6 @@
 <template>
   <div class="max-w-screen-lg mx-auto p-5">
+    <i class="material-icons cursor-pointer" @click="closeInteractionFormModal">west</i>
     <div class="grid grid-cols-1 md:grid-cols-12 border">
       <div class="bg-gray-900 md:col-span-4 p-10 text-white rounded-lg shadow-lg">
         <h3 class="text-2xl sm:text-3xl leading-normal font-extrabold text-center mb-4">
@@ -17,7 +18,7 @@
             <div class="flex flex-col">
               <span class="text-sm sm:text-base leading-normal tracking-tight text-blue-800">Surname:</span>
               <h3 class="text-sm sm:text-base leading-normal text-gray-800">{{
-                candidateStore.selectedCandidate.surname }}</h3>
+      candidateStore.selectedCandidate.surname }}</h3>
             </div>
           </div>
           <div class="bg-white p-4 rounded-lg shadow-md">
@@ -68,7 +69,6 @@ const props = defineProps({
     required: true
   }
 })
-const err = ref("")
 const formValue = ref({
   content: '',
   candidateResponded: false,
@@ -83,5 +83,7 @@ const handleSubmit = () => {
     .catch(err => console.log(err))
   emit("closeInteractionModal")
 }
-
+const closeInteractionFormModal = () => {
+  emit("closeInteractionModal")
+}
 </script>
